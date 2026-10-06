@@ -158,13 +158,8 @@
             font-weight: 500;
         }
     </style>
+    <link rel="stylesheet" href="../app.css">
 </head>
-<nav class="bottom-menu">
-  <a href="../index/index.html"><i class="bi bi-house"></i><span>Inicio</span></a>
-  <a href="../gov/gov.html"><i class="bi bi-building"></i><span>Trámites</span></a>
-  <a href="../missions/missions.html"><i class="bi bi-trophy"></i><span>Misiones</span></a>
-  <a href="../mi_progreso/mi_progreso.html"><i class="bi bi-bar-chart"></i><span>Progreso</span></a>
-  <a href="../perfil/perfil.html"><i class="bi bi-person"></i><span>Perfil</span></a>
 <body>
 
     <div class="container-fluid p-0" style="max-width: 600px; margin: 0 auto;">
@@ -215,54 +210,43 @@
         <!-- LOGROS DESTACADOS -->
         <div class="px-4 mb-4">
             <h5 class="fw-bold mb-3">Logros Destacados</h5>
-            <div class="row text-center g-2">
-                <div class="col-4">
-                    <div class="medal-box">🥇</div>
-                    <div class="small fw-medium">Campeón</div>
-                </div>
-                <div class="col-4">
-                    <div class="medal-box">🔥</div>
-                    <div class="small fw-medium">En racha</div>
-                </div>
-                <div class="col-4">
-                    <div class="medal-box">⭐</div>
-                    <div class="small fw-medium">Famoso</div>
-                </div>
+            <div class="row text-center g-2" id="achievementsContainer">
+                <p class="small text-muted">Cargando logros…</p>
             </div>
         </div>
 
         <!-- OPCIONES -->
         <div class="px-4 mb-4">
-            <h5 class="fw-bold mb-3">Configuración</h5>
+            <h5 class="fw-bold mb-3">Herramientas</h5>
             
-            <div class="option-card d-flex align-items-center mb-2" onclick="showToast('Abriendo notificaciones...')">
+            <a class="option-card d-flex align-items-center mb-2 text-decoration-none text-dark" href="../seguridad/index.html#alertTitle">
                 <i class="bi bi-bell-fill text-teal fs-4"></i>
                 <div class="ms-3 flex-grow-1">
-                    <div class="fw-bold" style="font-size: 14px;">Notificaciones</div>
-                    <div class="text-muted" style="font-size: 12px;">Recibe actualizaciones</div>
+                    <div class="fw-bold" style="font-size: 14px;">Centro de Seguridad</div>
+                    <div class="text-muted" style="font-size: 12px;">Alertas locales y acompañamiento</div>
                 </div>
                 <i class="bi bi-chevron-right text-secondary" style="font-size: 12px;"></i>
-            </div>
+            </a>
 
-            <div class="option-card d-flex align-items-center mb-2" onclick="showToast('Abriendo privacidad...')">
+            <a class="option-card d-flex align-items-center mb-2 text-decoration-none text-dark" href="../seguridad/index.html#businessTitle">
                 <i class="bi bi-shield-lock-fill text-teal fs-4"></i>
                 <div class="ms-3 flex-grow-1">
-                    <div class="fw-bold" style="font-size: 14px;">Privacidad</div>
-                    <div class="text-muted" style="font-size: 12px;">Gestiona tu privacidad</div>
+                    <div class="fw-bold" style="font-size: 14px;">Mi comercio</div>
+                    <div class="text-muted" style="font-size: 12px;">Edita el nombre del negocio</div>
                 </div>
                 <i class="bi bi-chevron-right text-secondary" style="font-size: 12px;"></i>
-            </div>
+            </a>
 
-            <div class="option-card d-flex align-items-center mb-2" onclick="showToast('Abriendo ayuda...')">
+            <a class="option-card d-flex align-items-center mb-2 text-decoration-none text-dark" href="../gov/gov.html#faqAccordion">
                 <i class="bi bi-question-circle-fill text-teal fs-4"></i>
                 <div class="ms-3 flex-grow-1">
                     <div class="fw-bold" style="font-size: 14px;">Ayuda y Soporte</div>
-                    <div class="text-muted" style="font-size: 12px;">Obtén asistencia</div>
+                    <div class="text-muted" style="font-size: 12px;">Guías y preguntas frecuentes</div>
                 </div>
                 <i class="bi bi-chevron-right text-secondary" style="font-size: 12px;"></i>
-            </div>
+            </a>
 
-            <div class="option-card d-flex align-items-center mb-2" onclick="showToast('Versión 1.0.0')">
+            <div class="option-card d-flex align-items-center mb-2">
                 <i class="bi bi-info-circle-fill text-teal fs-4"></i>
                 <div class="ms-3 flex-grow-1">
                     <div class="fw-bold" style="font-size: 14px;">Acerca de CivicMx</div>
@@ -311,11 +295,13 @@
 
         <!-- BOTONES DE ACCIÓN -->
         <div class="px-4 d-grid gap-2">
-            <button class="btn btn-teal" onclick="showToast('Abriendo editor de perfil...')">Editar Perfil</button>
+            <a class="btn btn-teal" href="../seguridad/index.html#businessTitle">Editar negocio</a>
             <button class="btn btn-outline-danger" onclick="handleLogout()">Cerrar Sesión</button>
         </div>
 
     </div>
+
+    <nav class="bottom-menu"></nav>
 
     <!-- SnackBar (Toast de Bootstrap) -->
     <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
@@ -329,48 +315,60 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../app.js"></script>
 
     <script>
-        // Simulando tu MockData y AuthService del código de Flutter
-        const mockUser = {
-            name: "Julio Can",
-            coins: 150,
-            streak: 5,
-            level: 3,
-            contributions: 24,
-            achievements: 8
-        };
-
-        const mockStats = {
-            aportes: 24, // Max estimado: 24
-            logros: 8    // Max estimado: 8
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadUserProfile();
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const currentUser = await window.CivicAuth.getCurrentUser();
+                if (!currentUser) {
+                    window.location.replace('../login/loguin.html');
+                    return;
+                }
+                const dashboard = await window.CivicApp.loadDashboard();
+                loadUserProfile(currentUser, dashboard);
+            } catch {
+                window.location.replace('../login/loguin.html');
+            }
         });
 
-        function loadUserProfile() {
-            // Llenar Cabecera
-            document.getElementById('headerCoins').textContent = mockUser.coins;
-            document.getElementById('headerStreak').textContent = mockUser.streak;
+        function loadUserProfile(currentUser, dashboard) {
+            const { stats, streak } = dashboard;
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userLevel').textContent = `Nivel ${stats.level}`;
+            document.getElementById('statAportes').textContent = stats.contributions;
+            document.getElementById('statRacha').textContent = streak.days;
+            document.getElementById('statLogros').textContent = dashboard.achievements.length;
+            document.getElementById('barAportesValue').textContent = stats.contributions;
+            document.getElementById('barAportes').style.width = `${Math.min(100, stats.contributions * 10)}%`;
+            document.getElementById('barLogrosValue').textContent = dashboard.achievements.length;
+            document.getElementById('barLogros').style.width = `${Math.min(100, dashboard.achievements.length / 3 * 100)}%`;
+            document.getElementById('barLevelValue').textContent = stats.level;
+            document.getElementById('barLevel').style.width = `${Math.min(100, stats.level * 10)}%`;
 
-            // Llenar Tarjeta Principal
-            document.getElementById('userName').textContent = mockUser.name;
-            document.getElementById('userLevel').textContent = `Nivel ${mockUser.level}`;
-            document.getElementById('statAportes').textContent = mockUser.contributions;
-            document.getElementById('statRacha').textContent = mockUser.streak;
-            document.getElementById('statLogros').textContent = mockUser.achievements;
-
-            // Llenar Barras de Estadísticas (Asumiendo los máximos estáticos de tu código Dart)
-            document.getElementById('barAportesValue').textContent = mockStats.aportes;
-            document.getElementById('barAportes').style.width = `${(mockStats.aportes / 24) * 100}%`;
-
-            document.getElementById('barLogrosValue').textContent = mockStats.logros;
-            document.getElementById('barLogros').style.width = `${(mockStats.logros / 8) * 100}%`;
-
-            document.getElementById('barLevelValue').textContent = mockUser.level;
-            document.getElementById('barLevel').style.width = `${(mockUser.level / 20) * 100}%`;
+            const achievementsContainer = document.getElementById('achievementsContainer');
+            if (!dashboard.achievements.length) {
+                const empty = document.createElement('p');
+                empty.className = 'small text-muted';
+                empty.textContent = 'Completa actividades para desbloquear logros.';
+                achievementsContainer.replaceChildren(empty);
+                return;
+            }
+            achievementsContainer.replaceChildren(...dashboard.achievements.map(achievement => {
+                const column = document.createElement('div');
+                column.className = 'col-4';
+                const medal = document.createElement('div');
+                medal.className = 'medal-box';
+                const icon = document.createElement('i');
+                icon.className = `bi ${achievement.icon}`;
+                medal.append(icon);
+                const label = document.createElement('div');
+                label.className = 'small fw-medium';
+                label.textContent = achievement.label;
+                column.append(medal, label);
+                return column;
+            }));
         }
 
         // Equivalente a ScaffoldMessenger.of(context).showSnackBar()
@@ -386,11 +384,11 @@
         // Equivalente a authService.logout() y Navigator.pushReplacement()
         async function handleLogout() {
             showToast('Cerrando sesión...');
-            // Simular retardo de red
-            await new Promise(resolve => setTimeout(resolve, 800));
-            
-            // Redirigir al login (index.html generado en el paso anterior)
-            window.location.href = 'index.html';
+            try {
+                await window.CivicAuth.logout();
+            } finally {
+                window.location.href = '../login/loguin.html';
+            }
         }
     </script>
 </body>

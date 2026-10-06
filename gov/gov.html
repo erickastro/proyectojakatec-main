@@ -169,16 +169,11 @@
         }
         
         .btn-teal:hover { background-color: #006666; color: white; }
-    </style>
+        </style>
+        <link rel="stylesheet" href="../app.css">
 </head>
-<nav class="bottom-menu">
-  <a href="../index/index.html"><i class="bi bi-house"></i><span>Inicio</span></a>
-  <a href="../gov/gov.html"><i class="bi bi-building"></i><span>Trámites</span></a>
-  <a href="../missions/missions.html"><i class="bi bi-trophy"></i><span>Misiones</span></a>
-  <a href="../mi_progreso/mi_progreso.html"><i class="bi bi-bar-chart"></i><span>Progreso</span></a>
-  <a href="../perfil/perfil.html"><i class="bi bi-person"></i><span>Perfil</span></a>
-</nav>
 <body>
+<nav class="bottom-menu"></nav>
 
     <div class="container-fluid p-0" style="max-width: 600px; margin: 0 auto;">
         
@@ -216,28 +211,28 @@
             <div class="row g-3">
                 <!-- Predial -->
                 <div class="col-6">
-                    <div class="service-card bg-teal text-white" onclick="showToast('Abriendo Predial...')">
+                    <div class="service-card bg-teal text-white" role="button" tabindex="0" onclick="openServiceInfo('Predial')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openServiceInfo('Predial')}">
                         <i class="bi bi-house-door-fill" style="font-size: 40px;"></i>
                         <div class="fw-bold mt-2" style="font-size: 14px;">Predial</div>
                     </div>
                 </div>
                 <!-- Licencia de conductor -->
                 <div class="col-6">
-                    <div class="service-card bg-amber text-dark" onclick="showToast('Abriendo Licencia de conductor...')">
+                    <div class="service-card bg-amber text-dark" role="button" tabindex="0" onclick="openServiceInfo('Licencia de conducir')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openServiceInfo('Licencia de conducir')}">
                         <i class="bi bi-car-front-fill" style="font-size: 40px;"></i>
                         <div class="fw-bold mt-2" style="font-size: 14px;">Licencia de<br>conductor</div>
                     </div>
                 </div>
                 <!-- Actas de nacimiento -->
                 <div class="col-6">
-                    <div class="service-card bg-light-grey text-dark bordered" onclick="showToast('Abriendo Actas de nacimiento...')">
+                    <div class="service-card bg-light-grey text-dark bordered" role="button" tabindex="0" onclick="openServiceInfo('Acta de nacimiento')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openServiceInfo('Acta de nacimiento')}">
                         <i class="bi bi-file-earmark-text" style="font-size: 40px;"></i>
                         <div class="fw-bold mt-2" style="font-size: 14px;">Actas de<br>nacimiento</div>
                     </div>
                 </div>
                 <!-- Programas sociales -->
                 <div class="col-6">
-                    <div class="service-card bg-light-grey text-dark bordered" onclick="showToast('Abriendo Programas sociales...')">
+                    <div class="service-card bg-light-grey text-dark bordered" role="button" tabindex="0" onclick="openServiceInfo('Programas sociales')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openServiceInfo('Programas sociales')}">
                         <i class="bi bi-people-fill" style="font-size: 40px;"></i>
                         <div class="fw-bold mt-2" style="font-size: 14px;">Programas<br>sociales</div>
                     </div>
@@ -261,11 +256,11 @@
                 </div>
                 <div class="d-flex align-items-start mb-3">
                     <div class="step-circle font-space">2</div>
-                    <div class="ms-3 text-muted" style="font-size: 12px; margin-top: 4px;">Selecciona la categoría 'Reporte' en el menú inferior.</div>
+                    <div class="ms-3 text-muted" style="font-size: 12px; margin-top: 4px;">Abre Inicio y selecciona Reportar para guardar un reporte comunitario.</div>
                 </div>
                 <div class="d-flex align-items-start">
                     <div class="step-circle font-space">3</div>
-                    <div class="ms-3 text-muted" style="font-size: 12px; margin-top: 4px;">Sube los detalles y gana 50 puntos de civismo al completarlo.</div>
+                    <div class="ms-3 text-muted" style="font-size: 12px; margin-top: 4px;">Añade detalles y ubicación si quieres; el reporte se guarda en el servidor compartido.</div>
                 </div>
             </div>
         </div>
@@ -284,7 +279,7 @@
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Puedes recuperar tu contraseña usando tu correo electrónico registrado. Ve a la pantalla de login y toca "¿Olvidaste tu contraseña?" para recibir las instrucciones.
+                            La recuperación automática todavía no está disponible. No compartas tu contraseña; contacta a la persona que administra esta instancia.
                         </div>
                     </div>
                 </div>
@@ -297,7 +292,7 @@
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Puedes recuperar tu contraseña usando tu correo electrónico registrado. Ve a la pantalla de login y toca "¿Olvidaste tu contraseña?" para recibir las instrucciones.
+                            Los requisitos pueden cambiar según el trámite. Consulta el portal oficial de la Ciudad de México antes de iniciar una solicitud.
                         </div>
                     </div>
                 </div>
@@ -310,7 +305,7 @@
                     </h2>
                     <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            Puedes recuperar tu contraseña usando tu correo electrónico registrado. Ve a la pantalla de login y toca "¿Olvidaste tu contraseña?" para recibir las instrucciones.
+                            CivicMx no cobra por mostrar información. El organismo oficial puede aplicar derechos o tarifas propias; verifícalos en su portal.
                         </div>
                     </div>
                 </div>
@@ -319,7 +314,7 @@
 
         <!-- BOTÓN ASESOR -->
         <div class="px-4 mb-5 pb-3">
-            <button class="btn btn-teal" onclick="showToast('Conectando con asesor...')">
+            <button class="btn btn-teal" onclick="showToast('La asesoría en vivo no está conectada. Consulta el portal oficial.')">
                 <i class="bi bi-chat-left-dots-fill me-2 fs-5"></i>
                 Habla con un asesor
             </button>
@@ -339,18 +334,35 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../app.js"></script>
+
+    <div class="modal fade" id="serviceInfoModal" tabindex="-1" aria-labelledby="serviceInfoTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="serviceInfoTitle">Trámite</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="serviceInfoDescription"></p>
+                    <p class="small text-muted mb-0">CivicMx no recibe pagos ni envía solicitudes a la autoridad desde este prototipo.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                    <a class="btn btn-teal" href="https://www.cdmx.gob.mx/" target="_blank" rel="noopener noreferrer">Ir al portal oficial</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Simulación MockData de usuario
-        const mockUser = {
-            coins: 1500,
-            streak: 4
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Llenar header
-            document.getElementById('headerCoins').textContent = mockUser.coins;
-            document.getElementById('headerStreak').textContent = mockUser.streak;
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await window.CivicApp.loadDashboard();
+            } catch (error) {
+                window.showToast(error.message);
+            }
 
             // Manejo del Toast (Equivalente al SnackBar de Flutter)
             const toastEl = document.getElementById('actionSnackBar');
@@ -367,12 +379,19 @@
 
             // Lógica para capturar "Enter" en la barra de búsqueda si quisieras usar el _searchController
             const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    showToast('Buscando: ' + searchInput.value);
-                }
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.trim().toLocaleLowerCase('es-MX');
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.closest('[class*="col-"]').hidden = !card.textContent.toLocaleLowerCase('es-MX').includes(query);
+                });
             });
         });
+
+        window.openServiceInfo = function(name) {
+            document.getElementById('serviceInfoTitle').textContent = name;
+            document.getElementById('serviceInfoDescription').textContent = `Consulta requisitos, costos y horarios actualizados de ${name} en el portal oficial de la Ciudad de México.`;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('serviceInfoModal')).show();
+        };
     </script>
 </body>
 </html>

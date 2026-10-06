@@ -12,16 +12,10 @@
     <!-- Google Fonts: Poppins & Space Grotesk -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../app.css">
 </head>
-<nav class="bottom-menu">
-  <a href="../index/index.html"><i class="bi bi-house"></i><span>Inicio</span></a>
-  <a href="../gov/gov.html"><i class="bi bi-building"></i><span>Trámites</span></a>
-  <a href="../missions/missions.html"><i class="bi bi-trophy"></i><span>Misiones</span></a>
-  <a href="../mi_progreso/mi_progreso.html"><i class="bi bi-bar-chart"></i><span>Progreso</span></a>
-  <a href="../perfil/perfil.html"><i class="bi bi-person"></i><span>Perfil</span></a>
-</nav>
-
 <body>
+        <nav class="bottom-menu"></nav>
 
     <div class="container-fluid p-0" style="max-width: 600px; margin: 0 auto;">
         
@@ -46,24 +40,30 @@
         <div class="px-4 mb-4">
             <div class="row g-2">
                 <div class="col-12">
-                    <div class="action-card bg-light-grey d-flex justify-content-between" onclick="showToast('Abriendo búsqueda...')">
+                    <label class="action-card bg-light-grey d-flex justify-content-between" for="reportSearch">
                         <div class="d-flex align-items-center text-muted">
                             <i class="bi bi-search me-2"></i>
-                            <span style="font-size: 14px;">Buscar reportes o noticias...</span>
+                            <input class="form-control border-0 bg-transparent p-0" id="reportSearch" type="search" placeholder="Buscar reportes o noticias..." aria-label="Buscar reportes">
                         </div>
-                    </div>
+                    </label>
                 </div>
                 <div class="col-6">
-                    <div class="action-card justify-content-center border-teal text-teal" style="border-color: var(--primary-teal);" onclick="showToast('Creando nuevo reporte...')">
+                    <button type="button" class="action-card justify-content-center border-teal text-teal w-100" style="border-color: var(--primary-teal);" data-bs-toggle="modal" data-bs-target="#reportModal">
                         <i class="bi bi-plus-circle-fill me-2"></i>
                         <span class="fw-bold" style="font-size: 14px;">Reportar</span>
-                    </div>
+                    </button>
                 </div>
                 <div class="col-6">
-                    <div class="action-card justify-content-center" onclick="showToast('Abriendo mapa...')">
+                    <a class="action-card justify-content-center text-decoration-none" href="../seguridad/index.html#tripTitle">
                         <i class="bi bi-map-fill text-secondary me-2"></i>
                         <span class="fw-bold text-dark" style="font-size: 14px;">Mapa</span>
-                    </div>
+                    </a>
+                </div>
+                <div class="col-12">
+                    <a class="action-card justify-content-center border-teal text-teal text-decoration-none" href="../seguridad/index.html">
+                        <i class="bi bi-shield-check me-2"></i>
+                        <span class="fw-bold" style="font-size: 14px;">Centro de Seguridad</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -86,7 +86,55 @@
 
     </div>
 
-    <!-- SnackBar (Toast) para simular interacciones -->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="reportForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="reportModalTitle">Nueva publicación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="reportCategory" class="form-label">Tipo de incidente</label>
+                            <select class="form-select" id="reportCategory" required>
+                                <option value="General">Otro</option>
+                                <option value="Robo / asalto">Robo / asalto</option>
+                                <option value="Accidente vial">Accidente vial</option>
+                                <option value="Persona sospechosa">Persona sospechosa</option>
+                                <option value="Violencia / riña">Violencia / riña</option>
+                                <option value="Alumbrado">Alumbrado</option>
+                                <option value="Vandalismo">Vandalismo</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reportTitle" class="form-label">Título</label>
+                            <input class="form-control" id="reportTitle" maxlength="120" required>
+                        </div>
+                        <div>
+                            <label for="reportDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="reportDescription" rows="4" maxlength="2000" required></textarea>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between gap-2 mt-3">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="reportLocationButton"><i class="bi bi-geo-alt me-1"></i>Agregar ubicación</button>
+                            <span class="small text-muted text-end" id="reportLocationStatus">Ubicación no compartida</span>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="anonymousReport">
+                            <label class="form-check-label" for="anonymousReport">Publicar como anónimo</label>
+                        </div>
+                        <p class="small text-muted mt-3 mb-0">Se guardará en el equipo que aloja la aplicación. No se envía a C5 ni al 911.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="publishButton">Publicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SnackBar (Toast) para interacciones -->
     <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
         <div id="actionSnackBar" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -98,14 +146,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../app.js"></script>
 
     <script>
-        // Simulando el MockData
-        const mockUser = {
-            coins: 1350,
-            streak: 5
-        };
-
         const mockNews = [
             { 
                 category: "Aviso Comunitario", 
@@ -120,32 +164,14 @@
                 icon: "bi-cone-striped"
             }
         ];
+        let reportLocation = null;
 
-        const mockReports = [
-            {
-                user: "María Gonzales.",
-                time: "Hace 15 min",
-                title: "Bache profundo en la calle 45",
-                description: "Hay un bache muy grande que está dañando los autos. Por favor precaución al pasar.",
-                status: "Pendiente",
-                likes: 12,
-                comments: 3
-            },
-            {
-                user: "Carlos M.",
-                time: "Hace 1 hora",
-                title: "Fuga de agua potable",
-                description: "Se está desperdiciando mucha agua en la esquina, parece ser una tubería rota.",
-                status: "Atendido",
-                likes: 45,
-                comments: 8
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await window.CivicApp.loadDashboard();
+            } catch (error) {
+                window.showToast(error.message);
             }
-        ];
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Llenar datos de cabecera
-            document.getElementById('headerCoins').textContent = mockUser.coins;
-            document.getElementById('headerStreak').textContent = mockUser.streak;
 
             // Renderizar Noticias (NewsCard)
             const newsContainer = document.getElementById('newsContainer');
@@ -163,45 +189,132 @@
                 `;
             });
 
-            // Renderizar Reportes (ReportCard)
-            const reportsContainer = document.getElementById('reportsContainer');
-            mockReports.forEach(report => {
-                const statusClass = report.status === 'Atendido' ? 'status-resolved' : 'status-pending';
-                
-                reportsContainer.innerHTML += `
-                    <div class="report-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="report-avatar">
-                                    <i class="bi bi-person-fill fs-5"></i>
-                                </div>
-                                <div class="ms-2">
-                                    <div class="fw-bold" style="font-size: 13px;">${report.user}</div>
-                                    <div class="text-muted" style="font-size: 11px;">${report.time}</div>
-                                </div>
-                            </div>
-                            <div class="report-status ${statusClass}">
-                                ${report.status}
-                            </div>
-                        </div>
-                        <h6 class="fw-bold mb-1" style="font-size: 15px;">${report.title}</h6>
-                        <p class="text-muted mb-0" style="font-size: 13px;">${report.description}</p>
-                        
-                        <div class="report-actions">
-                            <button class="action-btn" onclick="showToast('Diste Me gusta')">
-                                <i class="bi bi-arrow-up-circle fs-5"></i> ${report.likes}
-                            </button>
-                            <button class="action-btn" onclick="showToast('Abriendo comentarios...')">
-                                <i class="bi bi-chat-square-text fs-5"></i> ${report.comments}
-                            </button>
-                            <button class="action-btn" onclick="showToast('Compartiendo...')">
-                                <i class="bi bi-share fs-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
+            loadReports();
+            document.getElementById('reportSearch').addEventListener('input', filterReports);
+
+            document.getElementById('reportLocationButton').addEventListener('click', () => {
+                const status = document.getElementById('reportLocationStatus');
+                if (!navigator.geolocation) {
+                    status.textContent = 'Ubicación no disponible';
+                    return;
+                }
+                status.textContent = 'Solicitando permiso…';
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        reportLocation = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        };
+                        status.textContent = `${reportLocation.latitude.toFixed(4)}, ${reportLocation.longitude.toFixed(4)}`;
+                    },
+                    () => {
+                        reportLocation = null;
+                        status.textContent = 'No se obtuvo ubicación';
+                    },
+                    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+                );
+            });
+
+            document.getElementById('reportForm').addEventListener('submit', async event => {
+                event.preventDefault();
+                const form = event.currentTarget;
+                const publishButton = document.getElementById('publishButton');
+                publishButton.disabled = true;
+                try {
+                    await window.CivicApi.createPost(
+                        document.getElementById('reportTitle').value.trim(),
+                        document.getElementById('reportDescription').value.trim(),
+                        {
+                            category: document.getElementById('reportCategory').value,
+                            latitude: reportLocation?.latitude ?? null,
+                            longitude: reportLocation?.longitude ?? null,
+                            anonymous: document.getElementById('anonymousReport').checked
+                        }
+                    );
+                    form.reset();
+                    reportLocation = null;
+                    document.getElementById('reportLocationStatus').textContent = 'Ubicación no compartida';
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('reportModal')).hide();
+                    showToast('Publicación guardada en el equipo anfitrión.');
+                    await loadReports();
+                } catch (error) {
+                    showToast(error.message);
+                } finally {
+                    publishButton.disabled = false;
+                }
             });
         });
+
+        async function loadReports() {
+            const reportsContainer = document.getElementById('reportsContainer');
+            try {
+                const reports = await window.CivicApi.listPosts();
+                reportsContainer.replaceChildren();
+                if (reports.length === 0) {
+                    const emptyState = document.createElement('p');
+                    emptyState.className = 'px-4 text-muted small';
+                    emptyState.textContent = 'Todavía no hay publicaciones.';
+                    reportsContainer.append(emptyState);
+                    return;
+                }
+                reports.forEach(report => reportsContainer.append(createReportCard(report)));
+                filterReports();
+            } catch (error) {
+                showToast(error.message || 'No se pudieron cargar las publicaciones.');
+            }
+        }
+
+        function filterReports() {
+            const query = document.getElementById('reportSearch').value.trim().toLocaleLowerCase('es-MX');
+            document.querySelectorAll('#reportsContainer .report-card').forEach(card => {
+                card.hidden = !card.textContent.toLocaleLowerCase('es-MX').includes(query);
+            });
+        }
+
+        function createReportCard(report) {
+            const card = document.createElement('article');
+            card.className = 'report-card';
+
+            const header = document.createElement('div');
+            header.className = 'd-flex justify-content-between align-items-center mb-3';
+            const authorGroup = document.createElement('div');
+            authorGroup.className = 'd-flex align-items-center';
+            const avatar = document.createElement('div');
+            avatar.className = 'report-avatar';
+            avatar.innerHTML = '<i class="bi bi-person-fill fs-5"></i>';
+            const authorDetails = document.createElement('div');
+            authorDetails.className = 'ms-2';
+            const author = document.createElement('div');
+            author.className = 'fw-bold';
+            author.style.fontSize = '13px';
+            author.textContent = report.author;
+            const time = document.createElement('div');
+            time.className = 'text-muted';
+            time.style.fontSize = '11px';
+            time.textContent = new Date(report.created_at).toLocaleString('es-MX');
+            authorDetails.append(author, time);
+            authorGroup.append(avatar, authorDetails);
+
+            const status = document.createElement('div');
+            status.className = `report-status ${report.status === 'Atendido' ? 'status-resolved' : 'status-pending'}`;
+            status.textContent = report.status;
+            const category = document.createElement('span');
+            category.className = 'small text-secondary text-center';
+            category.textContent = report.category || 'General';
+            header.append(authorGroup, category, status);
+
+            const title = document.createElement('h6');
+            title.className = 'fw-bold mb-1';
+            title.style.fontSize = '15px';
+            title.textContent = report.title;
+            const description = document.createElement('p');
+            description.className = 'text-muted mb-0';
+            description.style.fontSize = '13px';
+            description.textContent = report.description;
+
+            card.append(header, title, description);
+            return card;
+        }
 
         // Utilidad global para los Toast (SnackBar)
         const toastEl = document.getElementById('actionSnackBar');

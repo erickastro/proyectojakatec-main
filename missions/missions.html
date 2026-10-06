@@ -105,16 +105,11 @@
             line-height: 1.2;
             width: 60px;
         }
-    </style>
+        </style>
+        <link rel="stylesheet" href="../app.css">
 </head>
-<nav class="bottom-menu">
-  <a href="../index/index.html"><i class="bi bi-house"></i><span>Inicio</span></a>
-  <a href="../gov/gov.html"><i class="bi bi-building"></i><span>Trámites</span></a>
-  <a href="../missions/missions.html"><i class="bi bi-trophy"></i><span>Misiones</span></a>
-  <a href="../mi_progreso/mi_progreso.html"><i class="bi bi-bar-chart"></i><span>Progreso</span></a>
-  <a href="../perfil/perfil.html"><i class="bi bi-person"></i><span>Perfil</span></a>
-</nav>
 <body>
+<nav class="bottom-menu"></nav>
 
     <div class="container-fluid p-0" style="max-width: 600px; margin: 0 auto;">
         
@@ -134,7 +129,7 @@
         <div class="px-4 mb-4 mt-3">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold mb-0">Misiones Diarias</h5>
-                <small class="text-muted" style="font-size: 12px;">Reinicia en 4h</small>
+                <small class="text-muted" style="font-size: 12px;">Se renuevan a medianoche</small>
             </div>
             
             <div id="dailyMissionsContainer">
@@ -146,46 +141,13 @@
         <div class="px-4 mb-4">
             <h5 class="fw-bold mb-3">Desafíos Semanales</h5>
             
-            <!-- Desafío 1 -->
-            <div class="custom-card mb-3">
-                <div class="d-flex align-items-start mb-3">
-                    <i class="bi bi-exclamation-triangle-fill text-teal fs-4"></i> <!-- Equivalente a Icons.report_problem -->
-                    <div class="ms-3 flex-grow-1">
-                        <h6 class="fw-bold mb-1">Reporta 5 problemas</h6>
-                        <small class="text-muted" style="font-size: 12px;">Contribuye reportando problemas en tu comunidad</small>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-2" style="font-size: 12px;">
-                    <span class="text-muted fw-medium">3 / 5</span>
-                    <div class="d-flex align-items-center text-muted">
-                        <i class="bi bi-coin text-warning me-1"></i>
-                        <span>250</span>
-                    </div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 60%"></div> <!-- 3/5 = 60% -->
-                </div>
+            <div class="custom-card d-flex justify-content-between align-items-center mb-2">
+                <span>Reportes esta semana</span>
+                <strong id="weeklyReports">0</strong>
             </div>
-
-            <!-- Desafío 2 -->
-            <div class="custom-card">
-                <div class="d-flex align-items-start mb-3">
-                    <i class="bi bi-heart-fill text-teal fs-4"></i> <!-- Equivalente a Icons.favorite -->
-                    <div class="ms-3 flex-grow-1">
-                        <h6 class="fw-bold mb-1">Gana 100 likes</h6>
-                        <small class="text-muted" style="font-size: 12px;">Consigue likes en tus reportes o comentarios</small>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-2" style="font-size: 12px;">
-                    <span class="text-muted fw-medium">87 / 100</span>
-                    <div class="d-flex align-items-center text-muted">
-                        <i class="bi bi-coin text-warning me-1"></i>
-                        <span>150</span>
-                    </div>
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 87%"></div>
-                </div>
+            <div class="custom-card d-flex justify-content-between align-items-center">
+                <span>Puntos esta semana</span>
+                <strong id="weeklyPoints">0</strong>
             </div>
         </div>
 
@@ -193,7 +155,7 @@
         <div class="px-4 mb-4">
             <h5 class="fw-bold mb-3">Logros Desbloqueados</h5>
             <div class="d-flex flex-wrap gap-3" id="achievementsContainer">
-                <!-- Se generan dinámicamente con JS para simular el loop "for (int i = 0; i < 8; i++)" -->
+                <!-- Logros calculados a partir de actividad real -->
             </div>
         </div>
 
@@ -221,82 +183,118 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../app.js"></script>
 
     <script>
-        // Simulación de los datos (MockData.currentUser)
-        const mockUser = {
-            coins: 1250,
-            contributions: 24,
-            level: 3 
-        };
-
-        // Simulación de los datos (MockData.dailyMissions)
-        const dailyMissions = [
-            { title: "Inicia sesión", progress: 1, total: 1, coinsReward: 10, icon: "bi-box-arrow-in-right" },
-            { title: "Comenta en 2 reportes", progress: 1, total: 2, coinsReward: 20, icon: "bi-chat-text-fill" },
-            { title: "Vota 5 propuestas", progress: 3, total: 5, coinsReward: 50, icon: "bi-check-circle-fill" }
-        ];
-
-        // Datos del array de logros hardcodeados en el código Flutter
-        const achievementsList = [
-            { emoji: '🌱', label: 'Primer paso' },
-            { emoji: '🔥', label: 'En racha' },
-            { emoji: '👍', label: 'Me gusta' },
-            { emoji: '💬', label: 'Comentarista' },
-            { emoji: '🎯', label: 'Puntería' },
-            { emoji: '⭐', label: 'Famoso' },
-            { emoji: '🏆', label: 'Campeón' },
-            { emoji: '🎉', label: 'Celebración' }
-        ];
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Llenar datos de usuario
-            document.getElementById('headerCoins').textContent = mockUser.coins;
-            document.getElementById('statCompletadas').textContent = mockUser.contributions;
-            document.getElementById('statSemana').textContent = mockUser.level;
-            document.getElementById('statGanancias').textContent = mockUser.coins;
-
-            // Renderizar Misiones Diarias
-            const missionsContainer = document.getElementById('dailyMissionsContainer');
-            dailyMissions.forEach((mission, index) => {
-                const progressPercentage = (mission.progress / mission.total) * 100;
-                const isLast = index === dailyMissions.length - 1;
-                
-                const cardHtml = `
-                    <div class="custom-card ${isLast ? '' : 'mb-3'}">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex align-items-center">
-                                <i class="bi ${mission.icon} text-secondary fs-5"></i>
-                                <h6 class="fw-bold mb-0 ms-3">${mission.title}</h6>
-                            </div>
-                            <span class="text-muted fw-medium" style="font-size: 12px;">${mission.progress}/${mission.total}</span>
-                        </div>
-                        
-                        <div class="d-flex align-items-center mb-2">
-                            <i class="bi bi-coin text-warning" style="font-size: 14px;"></i>
-                            <span class="text-muted ms-1" style="font-size: 12px;">+${mission.coinsReward} coins</span>
-                        </div>
-                        
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: ${progressPercentage}%"></div>
-                        </div>
-                    </div>
-                `;
-                missionsContainer.innerHTML += cardHtml;
-            });
-
-            // Renderizar Logros Desbloqueados
-            const achievementsContainer = document.getElementById('achievementsContainer');
-            achievementsList.forEach(ach => {
-                const badgeHtml = `
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="achievement-box">${ach.emoji}</div>
-                        <div class="achievement-label text-muted">${ach.label}</div>
-                    </div>
-                `;
-                achievementsContainer.innerHTML += badgeHtml;
-            });
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const [dashboard, missions] = await Promise.all([
+                    window.CivicApp.loadDashboard(),
+                    window.CivicApi.getMissions()
+                ]);
+                document.getElementById('statGanancias').textContent = dashboard.stats.coins;
+                document.getElementById('weeklyReports').textContent = dashboard.stats.weekly_reports;
+                document.getElementById('weeklyPoints').textContent = dashboard.stats.weekly_points;
+                renderMissions(missions);
+                renderAchievements(dashboard.achievements);
+            } catch (error) {
+                window.CivicApp.showMessage(error.message);
+            }
         });
+
+        function renderMissions(missions) {
+            const container = document.getElementById('dailyMissionsContainer');
+            container.replaceChildren(...missions.map(mission => {
+                const card = document.createElement('article');
+                card.className = 'custom-card mb-3';
+                const heading = document.createElement('div');
+                heading.className = 'd-flex align-items-center gap-3';
+                const icon = document.createElement('i');
+                icon.className = `bi ${mission.icon} text-teal fs-4`;
+                const titleWrap = document.createElement('div');
+                titleWrap.className = 'flex-grow-1';
+                const title = document.createElement('h6');
+                title.className = 'fw-bold mb-1';
+                title.textContent = mission.title;
+                const description = document.createElement('small');
+                description.className = 'text-muted';
+                description.textContent = mission.description;
+                titleWrap.append(title, description);
+                heading.append(icon, titleWrap);
+
+                const reward = document.createElement('p');
+                reward.className = 'small text-muted mt-3 mb-2';
+                reward.textContent = `+${mission.points} puntos · +${mission.coins} monedas`;
+                const progress = document.createElement('div');
+                progress.className = 'progress';
+                const bar = document.createElement('div');
+                bar.className = 'progress-bar';
+                bar.setAttribute('role', 'progressbar');
+                bar.style.width = mission.completed ? '100%' : '0%';
+                progress.append(bar);
+
+                let action;
+                if (mission.completed) {
+                    action = document.createElement('button');
+                    action.className = 'btn btn-outline-secondary btn-sm mt-3';
+                    action.disabled = true;
+                    action.textContent = 'Completada hoy';
+                } else if (mission.action === 'report') {
+                    action = document.createElement('a');
+                    action.className = 'btn btn-primary btn-sm mt-3';
+                    action.href = '../feed/index.html';
+                    action.textContent = 'Crear reporte';
+                } else if (mission.action === 'route') {
+                    action = document.createElement('a');
+                    action.className = 'btn btn-primary btn-sm mt-3';
+                    action.href = '../seguridad/index.html#tripTitle';
+                    action.textContent = 'Planear trayecto';
+                } else {
+                    action = document.createElement('button');
+                    action.className = 'btn btn-primary btn-sm mt-3';
+                    action.textContent = 'Completar';
+                    action.addEventListener('click', async () => {
+                        action.disabled = true;
+                        try {
+                            await window.CivicApi.completeMission(mission.id);
+                            window.location.reload();
+                        } catch (error) {
+                            window.CivicApp.showMessage(error.message);
+                            action.disabled = false;
+                        }
+                    });
+                }
+
+                card.append(heading, reward, progress, action);
+                return card;
+            }));
+        }
+
+        function renderAchievements(achievements) {
+            const container = document.getElementById('achievementsContainer');
+            if (!achievements.length) {
+                const empty = document.createElement('p');
+                empty.className = 'text-muted small';
+                empty.textContent = 'Completa actividades para desbloquear logros.';
+                container.replaceChildren(empty);
+                return;
+            }
+            container.replaceChildren(...achievements.map(achievement => {
+                const badge = document.createElement('div');
+                badge.className = 'd-flex flex-column align-items-center';
+                const iconBox = document.createElement('div');
+                iconBox.className = 'achievement-box';
+                const icon = document.createElement('i');
+                icon.className = `bi ${achievement.icon}`;
+                iconBox.append(icon);
+                const label = document.createElement('div');
+                label.className = 'achievement-label text-muted';
+                label.textContent = achievement.label;
+                badge.append(iconBox, label);
+                return badge;
+            }));
+        }
     </script>
 </body>
 </html>

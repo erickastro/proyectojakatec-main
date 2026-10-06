@@ -71,6 +71,7 @@
             align-items: center;
             cursor: pointer;
             transition: background-color 0.2s;
+            font: inherit;
         }
         .action-card:active { background-color: var(--medium-grey); }
 
