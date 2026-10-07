@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trámites y Servicios</title>
+    <title>HeroesMX | Trámites y Servicios</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -180,6 +180,7 @@
         <!-- HEADER -->
         <header class="d-flex justify-content-between align-items-center px-4 py-3 bg-white sticky-top">
             <div>
+                <div class="app-brand">HeroesMX</div>
                 <div class="d-flex align-items-center mb-1">
                     <i class="bi bi-wallet2 text-teal fs-5 me-2"></i>
                     <span class="fw-medium" style="font-size: 16px;">Consultas</span>
@@ -274,7 +275,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                            ¿Cómo recupero mi contraseña de CivicMx?
+                            ¿Cómo recupero mi contraseña de HeroesMX?
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
@@ -305,7 +306,7 @@
                     </h2>
                     <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
-                            CivicMx no cobra por mostrar información. El organismo oficial puede aplicar derechos o tarifas propias; verifícalos en su portal.
+                            HeroesMX no cobra por mostrar información. El organismo oficial puede aplicar derechos o tarifas propias; verifícalos en su portal.
                         </div>
                     </div>
                 </div>
@@ -346,7 +347,7 @@
                 </div>
                 <div class="modal-body">
                     <p id="serviceInfoDescription"></p>
-                    <p class="small text-muted mb-0">CivicMx no recibe pagos ni envía solicitudes a la autoridad desde este prototipo.</p>
+                    <p class="small text-muted mb-0">HeroesMX no recibe pagos ni envía solicitudes a la autoridad desde este prototipo.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
@@ -357,25 +358,24 @@
     </div>
 
     <script>
+        const toastEl = document.getElementById('actionSnackBar');
+        const snackBarMessage = document.getElementById('snackBarMessage');
+        let snackBarInstance;
+
+        window.showToast = function(message) {
+            snackBarMessage.textContent = message;
+            if (!snackBarInstance) {
+                snackBarInstance = new bootstrap.Toast(toastEl, { delay: 2000 });
+            }
+            snackBarInstance.show();
+        };
+
         document.addEventListener('DOMContentLoaded', async () => {
             try {
                 await window.CivicApp.loadDashboard();
             } catch (error) {
                 window.showToast(error.message);
             }
-
-            // Manejo del Toast (Equivalente al SnackBar de Flutter)
-            const toastEl = document.getElementById('actionSnackBar');
-            const snackBarMessage = document.getElementById('snackBarMessage');
-            let snackBarInstance;
-
-            window.showToast = function(message) {
-                snackBarMessage.textContent = message;
-                if (!snackBarInstance) {
-                    snackBarInstance = new bootstrap.Toast(toastEl, { delay: 2000 });
-                }
-                snackBarInstance.show();
-            };
 
             // Lógica para capturar "Enter" en la barra de búsqueda si quisieras usar el _searchController
             const searchInput = document.getElementById('searchInput');

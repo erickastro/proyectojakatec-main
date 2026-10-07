@@ -52,6 +52,7 @@ body {
 .bottom-menu a i { font-size: 19px; line-height: 1.1; }
 .bottom-menu a.active { color: var(--primary-teal); font-weight: 700; }
 .bottom-menu a:focus-visible { outline: 2px solid var(--primary-teal); outline-offset: -2px; }
+.app-brand { display: block; color: var(--primary-teal); font-size: 10px; font-weight: 700; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; }
 
 .text-teal { color: var(--primary-teal) !important; }
 .bg-teal { background-color: var(--primary-teal) !important; }

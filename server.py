@@ -58,6 +58,19 @@ DAILY_MISSIONS = {
         "action": "route",
     },
 }
+DEMO_REPORTS = (
+    ("tabasco_nacajuca_robo", "DEMO · Reporte comunitario", "Punto de muestra en Nacajuca; no representa un incidente real.", "Robo / asalto", 18.1667, -93.0667, 0),
+    ("tabasco_nacajuca_alumbrado", "DEMO · Alumbrado", "Dato sintético para probar el mapa de calor.", "Alumbrado", 18.1667, -93.0667, 1),
+    ("tabasco_nacajuca_vial", "DEMO · Incidente vial", "Dato sintético para probar el mapa de calor.", "Accidente vial", 18.1667, -93.0667, 2),
+    ("tabasco_villahermosa_robo", "DEMO · Reporte comunitario", "Punto de muestra en Villahermosa; no representa un incidente real.", "Robo / asalto", 17.9895, -92.9475, 1),
+    ("tabasco_cardenas_alumbrado", "DEMO · Alumbrado", "Dato sintético para probar el mapa de calor.", "Alumbrado", 17.9940, -93.3780, 3),
+    ("cdmx_robo", "DEMO · Reporte comunitario", "Punto de muestra en Ciudad de México; no representa un incidente real.", "Robo / asalto", 19.4326, -99.1332, 1),
+    ("monterrey_vial", "DEMO · Incidente vial", "Punto de muestra en Monterrey; no representa un incidente real.", "Accidente vial", 25.6866, -100.3161, 2),
+    ("guadalajara_alumbrado", "DEMO · Alumbrado", "Punto de muestra en Guadalajara; no representa un incidente real.", "Alumbrado", 20.6597, -103.3496, 4),
+    ("merida_robo", "DEMO · Reporte comunitario", "Punto de muestra en Mérida; no representa un incidente real.", "Robo / asalto", 20.9674, -89.5926, 2),
+    ("oaxaca_vandalismo", "DEMO · Vandalismo", "Punto de muestra en Oaxaca; no representa un incidente real.", "Vandalismo", 17.0732, -96.7266, 5),
+    ("tijuana_robo", "DEMO · Reporte comunitario", "Punto de muestra en Tijuana; no representa un incidente real.", "Robo / asalto", 32.5149, -117.0382, 6),
+)
 
 
 @contextmanager
@@ -107,6 +120,15 @@ def initialize_database() -> None:
                 status TEXT NOT NULL DEFAULT 'Pendiente',
                 created_at TEXT NOT NULL
             );
+            CREATE TABLE IF NOT EXISTS demo_reports (
+                id TEXT PRIMARY KEY,
+                title TEXT NOT NULL,
+                description TEXT NOT NULL,
+                category TEXT NOT NULL,
+                latitude REAL NOT NULL,
+                longitude REAL NOT NULL,
+                created_at TEXT NOT NULL
+            );
             CREATE TABLE IF NOT EXISTS security_alerts (
                 id INTEGER PRIMARY KEY,
                 user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -141,6 +163,15 @@ def initialize_database() -> None:
         ):
             if column not in post_columns:
                 connection.execute(f"ALTER TABLE posts ADD COLUMN {column} {definition}")
+        if os.environ.get("HEROESMX_DEMO_DATA") == "1":
+            for demo_id, title, description, category, latitude, longitude, age_days in DEMO_REPORTS:
+                created_at = (now_utc() - timedelta(days=age_days)).isoformat(timespec="seconds")
+                connection.execute(
+                    """INSERT OR IGNORE INTO demo_reports
+                       (id, title, description, category, latitude, longitude, created_at)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                    (demo_id, title, description, category, latitude, longitude, created_at),
+                )
 
 
 def now_utc() -> datetime:
@@ -154,7 +185,7 @@ def hash_password(password: str, salt: bytes) -> bytes:
 
 
 class CivicMxHandler(BaseHTTPRequestHandler):
-    server_version = "CivicMx/1.0"
+    server_version = "HeroesMX/1.0"
 
     def do_GET(self) -> None:
         path = urlsplit(self.path).path
@@ -192,13 +223,19 @@ class CivicMxHandler(BaseHTTPRequestHandler):
         if path == "/api/posts":
             with database() as connection:
                 rows = connection.execute(
-                    """SELECT posts.id,
-                              CASE WHEN posts.anonymous = 1 THEN 'Anónimo' ELSE users.name END AS author,
-                              posts.title, posts.description, posts.category,
-                              posts.latitude, posts.longitude, posts.anonymous,
-                              posts.status, posts.created_at
-                       FROM posts JOIN users ON users.id = posts.user_id
-                       ORDER BY posts.created_at DESC, posts.id DESC"""
+                  """SELECT * FROM (
+                      SELECT posts.id,
+                          CASE WHEN posts.anonymous = 1 THEN 'Anónimo' ELSE users.name END AS author,
+                          posts.title, posts.description, posts.category,
+                          posts.latitude, posts.longitude, posts.anonymous,
+                          posts.status, posts.created_at, 0 AS is_demo
+                      FROM posts JOIN users ON users.id = posts.user_id
+                      UNION ALL
+                      SELECT 'demo-' || id AS id, 'DEMO' AS author, title, description, category,
+                          latitude, longitude, 1 AS anonymous, 'Demostración' AS status,
+                          created_at, 1 AS is_demo
+                      FROM demo_reports
+                  ) ORDER BY created_at DESC"""
                 ).fetchall()
             self.send_json({"posts": [dict(row) for row in rows]})
             return
@@ -682,7 +719,7 @@ class CivicMxHandler(BaseHTTPRequestHandler):
 def main() -> None:
     initialize_database()
     server = ThreadingHTTPServer(("0.0.0.0", PORT), CivicMxHandler)
-    print(f"CivicMx disponible en http://localhost:{PORT}")
+    print(f"HeroesMX disponible en http://localhost:{PORT}")
     print(f"Base de datos local: {DB_PATH}")
     try:
         server.serve_forever()
